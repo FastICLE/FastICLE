@@ -6,7 +6,11 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "agno>=2.6.9",
+    "fasticrl",
     "openai>=2.38.0",
     "pytest>=9.0.3",
     "python-dotenv>=1.2.2",
 ]
+
+[tool.uv.sources]
+fasticrl = { path = "../FastICRL" }
