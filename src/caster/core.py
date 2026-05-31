@@ -2,7 +2,7 @@ from caster.models.caster_output import CasterOutput
 from pydantic import Field
 from typing import Annotated
 from caster.prompts import casting_agent_system_prompt
-from campus.campus_agent import Campus
+from campus.core import Campus
 from agno.run.agent import RunOutput
 from agno.agent import Agent
 from functools import wraps

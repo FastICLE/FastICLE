@@ -6,7 +6,8 @@ dist/
 wheels/
 *.egg-info
 
-tests/data
+tests/data/*
+!tests/data/dummy_experts/
 
 # Virtual environments
 .venv
