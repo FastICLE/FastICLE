@@ -6,8 +6,12 @@ dist/
 wheels/
 *.egg-info
 
+tests/data
+
 # Virtual environments
 .venv
+
+.local_files/
 
 *.parquet
 

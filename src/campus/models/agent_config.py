@@ -4,6 +4,7 @@ from pydantic import Field
 from pydantic import BaseModel
 
 class AgentConfig(BaseModel):
+    id: Annotated[str, Field()]
     agent_save_state: Annotated[AgentSaveState, Field()]
     description: Annotated[str, Field(default="")]
     
