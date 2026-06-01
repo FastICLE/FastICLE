@@ -5,15 +5,9 @@ from caster.core import CasterAgent
 import logging
 import pytest
 
-LOGGER = logging.getLogger(__name__)
-
 prompt = """
 Set up an automated backup system for a local Docker environment. It needs to safely stop specific containers, compress and backup their appdata directories to a secondary NAS drive, restart the containers, and send a status notification when finished.
 """
-
-
-def reward_func(model_output: str, task: str) -> int:
-    return random.randrange(0, 10)
 
 
 @pytest.mark.api

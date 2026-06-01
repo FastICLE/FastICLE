@@ -1,24 +1,25 @@
-from campus.models.reward_output import RewardOutput
-from campus.prompts import reward_agent_system_prompt
-from campus.prompts import icrl_agent_system_prompt
-from dotenv import load_dotenv
-from agno.models.openai import OpenAIResponses
-from agno.run.agent import RunOutput
-from campus.prompts import campus_agent_system_prompt
-from campus.models.training_task_list import TrainingTaskList
-from agno.agent import Agent
 from pathlib import Path
-from pydantic import SkipValidation
-from pydantic import ConfigDict
-from agno.models.base import Model
 from typing import Annotated
 
-from pydantic import BaseModel, Field
-
-from campus.models.agent_config import AgentConfig
+from agno.agent import Agent
+from agno.models.base import Model
+from agno.models.openai import OpenAIResponses
+from agno.run.agent import RunOutput
+from dotenv import load_dotenv
 from fasticrl.icrl_learner import ICRLLearner
-
 from loguru import logger
+from pydantic import BaseModel, ConfigDict, Field, SkipValidation
+
+from campus.models.expert_config import ExpertConfig
+from campus.models.reward_output import RewardOutput
+from campus.models.training_task_list import TrainingTaskList
+from campus.prompts import (
+    campus_agent_system_prompt,
+    icrl_agent_system_prompt,
+    reward_agent_system_prompt,
+)
+from loguru import logger
+
 
 
 class Campus(BaseModel):
@@ -29,13 +30,21 @@ class Campus(BaseModel):
 
     save_path: Annotated[str, Field(default="~")]
     auto_save: Annotated[bool, Field(default=True)]
-    agent_configs: Annotated[list[AgentConfig], Field(default_factory=list)]
+    agent_configs: Annotated[list[ExpertConfig], Field(default_factory=list)]
 
     model: Model
-
-    def get_expert_descriptions(self) -> list[tuple[str, str]]:
+    
+    def get_experts(self) -> list[ExpertConfig]:
+        expert_configs: list[ExpertConfig] = list()
+        
         for yaml_file in Path(self.save_path).glob("*.yaml"):
-            pass
+            try:
+                expert_config: ExpertConfig = ExpertConfig.from_yaml(yaml_file)
+                expert_configs.append(expert_config)
+            except Exception as e:
+                logger.warning(f"Could not load expert config ({str(yaml_file.absolute())}): {e}")
+        
+        return expert_configs
 
     def __generate_synth_learning_tasks(self, expert_task):
         task_agent = Agent(
@@ -93,7 +102,7 @@ class Campus(BaseModel):
 
         logger.debug("Saving expert...")
 
-        agent_config: AgentConfig = AgentConfig(
+        agent_config: ExpertConfig = ExpertConfig(
             name=expert_name,
             **learner.agent_save_state.model_dump(),
         )

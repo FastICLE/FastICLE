@@ -16,5 +16,13 @@ def test_train_new_expert(g_data):
     assert True
     
     
-def test_list_all_experts():
-    pass
+def test_list_all_experts(g_data):
+    campus = Campus(
+        global_task="Write poems.",
+        save_path="./tests/data/dummy_experts",
+        model=g_data["model"]
+    )
+    
+    expert_configs = campus.get_experts()
+    
+    assert len(expert_configs) == 3

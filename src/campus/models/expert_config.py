@@ -1,24 +1,26 @@
-from fasticrl.models.agent_save_state import AgentSaveState
+from pathlib import Path
 from typing import Annotated
-from pydantic import Field
+
 import yaml
+from fasticrl.models.agent_save_state import AgentSaveState
+from pydantic import Field
 
 YAML_SUFFIX = ".yaml"
-class AgentConfig(AgentSaveState):
+
+
+class ExpertConfig(AgentSaveState):
     name: Annotated[str, Field()]
-    
+
     def to_yaml(self, path: str):
-        
+
         if not path.endswith(YAML_SUFFIX):
             path += YAML_SUFFIX
-        
+
         with open(path, "w") as outfile:
             yaml.dump(self.model_dump(mode="json"), outfile, default_flow_style=False)
-        
-    
+
     @classmethod
-    def from_yaml(cls, path: str):
+    def from_yaml(cls, path: str | Path):
         with open(path, "r") as file:
-            data = yaml.safe_load(path)
-            return AgentConfig.model_validate(data)
-    
+            data = yaml.safe_load(file)
+            return ExpertConfig.model_validate(data)

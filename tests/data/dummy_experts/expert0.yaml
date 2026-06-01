@@ -56,3 +56,4 @@ task_description: "You are a highly specialized Expert Agent operating within a 
   \ further.\n5. Do not repeat attempts that previously resulted in low rewards.\n\
   6. Your final output MUST strictly adhere to the 'Required Output Format'. Do not\
   \ output conversational text outside of this format.\n"
+name: Test
