@@ -64,6 +64,12 @@ class Campus(BaseModel):
         return task_list
 
     def train_new_expert(self, expert_name: str, expert_task: str) -> None:
+        """Use this method to train a new expert for the campus.
+        
+        Args:
+            expert_name (str): Name of the expert. Used later for task allocation
+            expert_task (str): Task the expert is the specialist for.
+        """
 
         expert_name = expert_name.replace(" ", "_").lower()
 

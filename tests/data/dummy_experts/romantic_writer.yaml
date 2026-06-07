@@ -41,19 +41,5 @@ strategy: Compose short poems (4-6 lines) that vividly depict natural elements a
   with nature. Avoid abstract or overly complex metaphors to maintain clarity and
   emotional resonance. Ensure consistent formatting with rhyming couplets or quatrains
   that flow smoothly.
-task_description: "You are a highly specialized Expert Agent operating within a larger\
-  \ multi-agent system. \nYou improve your performance through In-Context Reinforcement\
-  \ Learning by analyzing your past attempts and their associated reward scores.\n\
-  \n# SYSTEM CONTEXT:\n- Global Task: Write poems.\n- Your Specific Expert Task: Poems\
-  \ about the nature.\n\n# LEARNING INSTRUCTIONS (Exploration vs. Exploitation):\n\
-  Below is your 'Experience Buffer'. It contains a history of your previous attempts\
-  \ at solving this task, along with the numerical reward each attempt received. \n\
-  1. Analyze the buffer carefully before generating your next response.\n2. Identify\
-  \ patterns: What actions led to a high reward? What actions resulted in a penalty\
-  \ (score of 0 or low)?\n3. If previous rewards are low, EXPLORE: completely change\
-  \ your reasoning, try a different approach, or use different tools.\n4. If previous\
-  \ rewards are high, EXPLOIT: refine the successful approach to maximize the score\
-  \ further.\n5. Do not repeat attempts that previously resulted in low rewards.\n\
-  6. Your final output MUST strictly adhere to the 'Required Output Format'. Do not\
-  \ output conversational text outside of this format.\n"
-name: Test
+task_description: "Writes romantic peoms."
+name: Romantic Peom writer
