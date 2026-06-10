@@ -319,95 +319,16 @@ buffer:
   reward: 9
   task: Write a free verse poem exploring a given theme without rhyme but focusing
     on vivid imagery and emotion.
-- output: "Morning dew clings tight,\nSpider webs in sunlit threads,\nNature\u2019\
-    s jeweled lace."
-  reward: 10
-  task: Write a short haiku poem based on the theme of nature, ensuring the output
-    is formatted as a poem.
-- output: 'Winter chills the biting air,
-
-    Spring awakes with colors fair.
-
-    Summer beams with golden light,
-
-    Autumn paints the leaves just right.'
-  reward: 10
-  task: Compose a four-line poem about the seasons, maintaining poem format with appropriate
-    line breaks.
-- output: 'Sorrow
-
-    Silent, heavy
-
-    Weeps, shivers, fades
-
-    A heart lost in hollow night
-
-    Darkness'
-  reward: 9
-  task: Create a cinquain poem that explores an emotion, structured correctly as a
-    poem.
-- output: 'There once was a parrot named Clyde,
-
-    Who thought he could take a sly ride.
-
-    He flew down the street,
-
-    On two tiny feet,
-
-    Till a cat stopped him cold, wide-eyed.'
-  reward: 9
-  task: Develop a limerick poem with humor, formatted with proper rhymes and line
-    structure.
-- output: 'In twilight''s glow, your eyes ignite the flame,
-
-    A beacon bright that guides my wandering heart.
-
-    No summer rose could match your tender name,
-
-    Nor starlit skies from your sweet light depart.
-
-
-    With every breath, my soul begins to soar,
-
-    As whispered words like gentle breezes fall.
-
-    Your touch, a balm that heals forevermore,
-
-    In love''s embrace, I find my all in all.
-
-
-    Though seasons change and years may drift away,
-
-    Our bond remains, a timeless, precious thread.
-
-    Through darkest nights or in the brightest day,
-
-    Your smile''s the dawn that lifts where once was dread.
-
-
-    So here I vow, as endless as the sea,
-
-    Forevermore, my heart belongs to thee.'
-  reward: 9
-  task: Write a sonnet poem that conveys a romantic theme, adhering to sonnet rhyme
-    and structure conventions.
-description: Specializes in natural environments, earth ecosystems, and biology.
-name: nature_poem_writer
-strategy: Do consistently produce poems that strictly follow the requested poetic
-  form and constraints (e.g., rhyme schemes, syllable counts, line numbers). Do maintain
-  clear rhyme schemes and rhythmic patterns when specified (e.g., AABB quatrains,
-  limericks, sonnets). Do preserve appropriate thematic content relevant to the poem
-  type (e.g., emotion for cinquains, nature for seasonal or haiku poems). Do format
-  poems with appropriate line breaks and poem layout, especially in plain text formatting
-  tasks. Do use vivid, evocative imagery to enrich the poem's emotional or descriptive
-  quality. Do explore diverse poetic forms as required, ensuring technical accuracy.
-  Don't produce poems with deviations from the requested poetic form (wrong rhyme
-  schemes, line numbers, or syllable counts). Don't break poem formatting or output
-  as prose. Don't repeat unsuccessful patterns such as acrostic poems with weak thematic
-  or structural execution that led to lower rewards. Don't neglect the requested theme
-  or style for each task. Exploit the successful approach of clear structural adherence
-  combined with vivid imagery and theme-aligned language, refining precision in rhyme
-  and meter to maximize rewards.
+description: Specializes in poetry about household appliances, technology, and refrigerators.
+name: appliance_poem_writer
+strategy: Exploit the demonstrated strength in structured poetic forms such as sonnets
+  with clear rhyme schemes (e.g. ABAB CDCD EFEF GG) and maintain thematic depth with
+  philosophical or natural themes. Continue using vivid imagery and emotional resonance,
+  especially in free verse and haikus, which consistently received high rewards. Ensure
+  strict adherence to requested formats and rhyme/syllable schemes without deviation.
+  Avoid poorly executed or less appreciated forms such as acrostics or overly simplistic
+  attempts. Do not repeat low-scoring structures or formatting errors. Prioritize
+  clarity, coherent rhyme, rhythm, and meaningful content to maximize reward (8+).
 task_description: "You are a highly specialized Expert Agent operating within a larger\
   \ multi-agent system. \nYou improve your performance through In-Context Reinforcement\
   \ Learning by analyzing your past attempts and their associated reward scores.\n\

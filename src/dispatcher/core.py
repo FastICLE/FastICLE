@@ -1,9 +1,9 @@
+from task import DispatcherTaskList
 from functools import wraps
 
 from agno.agent import Agent
 from agno.models.base import Model
 
-from dispatcher.models.dispatcher_task_list import DispatcherTaskList
 
 
 class DispatcherAgent(Agent):

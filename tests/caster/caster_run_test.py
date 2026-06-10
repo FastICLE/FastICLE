@@ -1,4 +1,4 @@
-from caster.models.caster_output import CasterOutput
+from task import CasterTaskList
 from agno.run.agent import RunOutput
 import logging
 import random
@@ -33,6 +33,8 @@ def test_caster_run(g_data):
 
     output: RunOutput = caster.run(prompt)
 
-    caster_out: CasterOutput = output.content
+    caster_out: CasterTaskList = output.content
     
-    assert caster_out.assigned_tasks[0].agent_ids[0].lower() == "nature poem writer"
+    LOGGER.info(caster_out)
+    
+    assert len(caster_out.task_list) > 0

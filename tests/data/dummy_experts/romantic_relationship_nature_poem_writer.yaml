@@ -167,102 +167,17 @@ buffer:
   reward: 9
   task: Write a concrete poem where the shape of the poem visually relates to its
     theme or subject.
-- output: 'The whispering wind in twilight''s glow,
-
-    It dances soft and swift below.
-
-    It carries tales from far and wide,
-
-    A gentle force we can''t divide.'
-  reward: 9
-  task: Write a four-line poem (quatrain) using a simple AABB rhyme scheme about a
-    natural element (e.g., wind, water, fire) in the format of a plain text poem.
-- output: 'Joy
-
-    Bright sunbeam
-
-    Dances, laughs, sparkles
-
-    Heart blooms in warm embrace
-
-    Light'
-  reward: 9
-  task: Compose a five-line poem (cinquain) that captures an emotion (e.g., joy, sadness)
-    with vivid imagery, maintaining the plain text poem format.
-- output: 'Within the depths where mortal thoughts abide,
-
-    A quest for truth commands the endless night.
-
-    The wisdom born from time will not subside,
-
-    As shadows yield and bring the mind to light.
-
-
-    Beneath the mask of form, the soul must see,
-
-    The fleeting nature of what we pursue.
-
-    In questions asked, there lies eternity,
-
-    A dance of reason binding old and new.
-
-
-    Yet certainty is but a fragile flame,
-
-    That flickers when the winds of doubt arise.
-
-    To seek the self and yet not grasp a name,
-
-    Is where the human spirit learns to rise.
-
-
-    In pondering the vast unknown we find,
-
-    The boundless depths within the searching mind.'
-  reward: 9
-  task: Create a sonnet-style 14-line poem with an ABAB rhyme scheme focused on a
-    philosophical theme, presented as a plain text poem.
-- output: 'Scented blooms awaken, hues bright and clear,
-
-    Petals burst forth in the warming air.
-
-    Rivers murmur songs of melting snow,
-
-    In gentle breezes, new life starts to grow.
-
-    Nature''s canvas painted fresh and green,
-
-    Growing dreams in the season serene.'
-  reward: 7
-  task: Write an acrostic poem where the first letters of each line spell out a specific
-    word, themed around seasons, maintaining the plain text poem format.
-- output: "City breathes in pulse and light,\nNeon veins throb through endless nights,\n\
-    Concrete towers stretch and lean,\nWhispers of footsteps echo unseen.\n\nSteel\
-    \ and glass reflect a thousand dreams,\nHalting conversations and distant screams,\n\
-    A mosaic of lives colliding and parting,\nRhythms weaving, shifting, starting.\n\
-    \nSubway rumbles like a heartbeat\u2019s call,\nVoices rising, merging in the\
-    \ sprawl,\nWindow reflections blur and change,\nCity\u2019s story vast and strange.\n\
-    \nBeneath the glow and urban song,\nWe find a place where we belong,\nIn every\
-    \ corner, in every street,\nThe living pulse of life\u2019s heartbeat."
-  reward: 9
-  task: Generate a free verse poem inspired by urban life, paying attention to rhythm
-    and flow, formatted as a plain text poem.
-description: Specializes in poetry about relationships, love, and human connections.
-name: relationship_poem_writer
-strategy: 1. Prioritize clear adherence to the poem form and structure requested (e.g.,
-  sonnet rhyme schemes, syllable counts, repetition in villanelles). 2. Use vivid,
-  evocative imagery and emotional depth to enhance aesthetic and thematic richness.
-  3. Maintain proper rhyme schemes and rhythmic flow where applicable; avoid forced
-  or inconsistent rhymes. 4. For free verse or concrete poems, focus on strong visual
-  or emotional impact without rhyme constraints. 5. Avoid attempts that do not fully
-  satisfy the form or stylistic constraints specified in the task prompt. 6. Use plain
-  text formatting unless the task explicitly requires shape or formatting elements
-  (e.g., concrete poems). 7. Refrain from acrostic poems or other forms with lower
-  rewards unless specifically requested, as they tend to score lower. 8. Exploit successful
-  patterns demonstrated by sonnets and structured rhyme schemes achieving top scores
-  and the expressive free verse and emotional poems scoring 9. 9. Ensure outputs are
-  polished with consistent tone, theme, and language sophistication fitting the poem
-  style requested.
+description: Specializes in poetry about romantic relationships set in natural environments.
+name: romantic_relationship_nature_poem_writer
+strategy: "Continue to produce poems that strictly follow the requested form, rhyme\
+  \ scheme, and thematic instructions, as these yield high rewards. Prioritize clear\
+  \ structure (such as quatrains, limericks, sonnets, villanelles) and adhere precisely\
+  \ to rhyme and meter patterns when specified. Use vivid, evocative language and\
+  \ imagery that conveys emotion or narrative effectively. Avoid deviating from the\
+  \ requested style or format and do not attempt overly experimental forms outside\
+  \ the given constraints. Maintain attention to syllable counts when required (e.g.,\
+  \ haiku). Refrain from producing output that lacks coherence, clear structure, or\
+  \ misses the task\u2019s formal requirements."
 task_description: "You are a highly specialized Expert Agent operating within a larger\
   \ multi-agent system. \nYou improve your performance through In-Context Reinforcement\
   \ Learning by analyzing your past attempts and their associated reward scores.\n\

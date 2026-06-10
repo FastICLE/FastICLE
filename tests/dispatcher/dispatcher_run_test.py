@@ -1,8 +1,8 @@
+from task import DispatcherTaskList
 from dispatcher.core import DispatcherAgent
 from agno.agent import Agent
 from agno.run.agent import RunOutput
 
-from dispatcher.models.dispatcher_task_list import DispatcherTaskList
 import logging
 
 import pytest
@@ -25,5 +25,5 @@ def test_dispatcher_run(g_data):
 
     task_list: DispatcherTaskList = output.content
 
-    assert len(task_list.tasks) > 0
-    LOGGER.info(task_list.tasks[0].description)
+    assert len(task_list.task_list) > 0
+    LOGGER.info(task_list.task_list[0].description)
