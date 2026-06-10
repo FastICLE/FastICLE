@@ -1,0 +1,141 @@
+buffer:
+- output: 'Cold inside, the fridge will hum,
+
+    Keeping foods fresh, from day to sun.
+
+    Chilled delights in every hold,
+
+    Guarding tastes from growing old.'
+  reward: 8
+  task: Write a simple four-line poem about a refrigerator, focusing on its basic
+    function of keeping food cold. Output the poem in plain text format.
+- output: "In icy breath, a silent forge was born,\nA chilling pulse on summer\u2019\
+    s scorching thorn.\nFrom ancient dreams to frost\u2019s gentle embrace,\nLife\u2019\
+    s flavor saved, time slowed in cold\u2019s grace."
+  reward: 9
+  task: Compose a poem about the history and invention of the refrigerator, using
+    metaphorical language to describe its impact on daily life. Output the poem in
+    plain text format.
+- output: "Inside the fridge\u2019s quiet keep,\nA jar of dreams, in silence deep.\n\
+    Cheese whispers stories, aged with grace,\nWhile eggs hold life\u2019s uncertain\
+    \ face.\nCarrots stand like soldiers bright,\nGuardians of health in cool twilight.\n\
+    A bottle cools forgotten time,\nMilk flows soft, a gentle rhyme.\nEach shelf a\
+    \ world, both near and far,\nSymbols stored beneath the star."
+  reward: 9
+  task: Create a poem describing the various contents found inside a refrigerator
+    and their symbolic meanings. Maintain the plain text poem format.
+- output: "I hum a tune beneath the kitchen light,\nA chilly guardian in endless night.\n\
+    I hold your secrets, leftovers' fate,\nBut when you raid me, I grumble late.\n\
+    My coils may creak with frosty sighs,\nJealous of snacks that steal your eyes.\n\
+    I dream of days when bulbs were bright,\nAnd doors closed soft, not with a fight!\n\
+    Though cold and silent, I\u2019ve got my pride,\nA fridge with feelings you can\u2019\
+    t hide!"
+  reward: 9
+  task: Write a humorous poem personifying a refrigerator as a character with emotions
+    and thoughts. Output the poem in plain text format.
+- output: "A humming vault of modern dreams,\nWhere glowing light through silence\
+    \ beams.\nSteel heart pulses with cooling breath,\nGuarding freshness, defying\
+    \ death.\n\nWhirs and clicks in steady rhyme,\nA sentinel of fleeting time.\n\
+    Inside its depths, the future stored,\nCold convenience we adore.\n\nSilent servant,\
+    \ tireless friend,\nTech\u2019s embrace that will not end.\nA beacon in the kitchen\u2019\
+    s core,\nAdvancing life forevermore."
+  reward: 9
+  task: Develop a poem that explores the refrigerator as a symbol of modern convenience
+    and technology, using vivid imagery. Output the poem in plain text format.
+- output: 'In gardens where the roses twine,
+
+    Our roots embrace, your heart in mine.
+
+    Petals blush like whispered dreams,
+
+    Love blooms beneath the sun''s soft beams.'
+  reward: 8
+  task: Write a short poem about a romantic relationship using imagery solely based
+    on plants and flowers, capturing the essence of love through botanical metaphors.
+- output: "In spring\u2019s soft blush, new love will grow,\nFresh buds awaken, hearts\
+    \ in glow.\nSummer days bloom in golden light,\nPassion\u2019s warmth, both bold\
+    \ and bright.\n\nAutumn leaves whisper tales of change,\nLove matures as colors\
+    \ range.\nWinter\u2019s hush wraps tight and close,\nA quiet strength love\u2019\
+    s heart now knows."
+  reward: 10
+  task: Compose a poem that describes a romantic relationship through the changing
+    seasons in nature, emphasizing emotions connected to each season.
+- output: 'The river whispers soft and low,
+
+    A lover''s touch in gentle flow.
+
+    Mountains stand with steadfast grace,
+
+    Guardians strong in love''s embrace.
+
+
+    The wind dances wild and free,
+
+    Stirring hearts with mystery.
+
+    Together bound by nature''s art,
+
+    Elements entwined, never apart.
+
+
+    Through storms they waltz, through calm they rest,
+
+    In nature''s arms, their love confessed.
+
+    A timeless bond, both fierce and kind,
+
+    Two souls in dance, forever twined.'
+  reward: 9
+  task: Create a poem depicting a romantic relationship by personifying elements of
+    nature such as rivers, mountains, and the wind, illustrating the dynamics between
+    lovers.
+- output: "Beneath the willow\u2019s whispered shade,\nWe found a world where hearts\
+    \ persuade.\nThe scent of pine, the river\u2019s song,\nA timeless place where\
+    \ love belongs.\n\nWarm sunlight draped on skin so bare,\nThe summer breeze, your\
+    \ gentle hair.\nRustling leaves like sighs we shared,\nIn nature\u2019s arms,\
+    \ a love declared.\n\nAs twilight draped the mountain tall,\nThe cool night air\
+    \ began to fall.\nStars twinkled bright, the fire\u2019s glow,\nOur souls entwined\
+    \ in soft shadow.\n\nThrough fragrant blooms and forest deep,\nOur passion bloomed,\
+    \ a vow to keep.\nIn every breath, the earth's own kiss,\nA love story carved\
+    \ in natural bliss."
+  reward: 9
+  task: Compose a poem that narrates a love story set in a natural setting, integrating
+    sensory descriptions of the environment to evoke intimacy and passion.
+- output: "From tender seed beneath the earth's embrace,\nA fragile promise woven\
+    \ deep in space.\nRoots whisper secrets, silent and profound,\nIn darkness where\
+    \ the heart\u2019s true hope is found.\n\nSprouts break through soil, reaching\
+    \ for the light,\nFirst fragile leaves that tremble with delight.\nSmall storms\
+    \ may batter, winds may bruise and bend,\nYet strength is born as branches start\
+    \ to send.\n\nSap flows steady, pulsing life anew,\nThickening trunk, a bond both\
+    \ tried and true.\nEach ring inscribed with seasons passed and known,\nEndurance\
+    \ carved in wood and love full-grown.\n\nUnder canopy where soft shadows play,\n\
+    Two souls entwined in nature's grand ballet.\nThrough storms and sun, through\
+    \ calm and restless sea,\nRooted deep, their love remains a towering tree."
+  reward: 9
+  task: Write a complex poem exploring the endurance and growth of a romantic relationship
+    using an extended metaphor of a growing tree from seedling to maturity in a forest.
+description: Specializes in romantic poetry with a natural environment theme.
+name: romantic_nature_poem_writer
+strategy: Write poems strictly in plain text format, focusing on romantic relationships
+  depicted through vivid and consistent nature imagery. Use extended metaphors or
+  personifications that connect emotions to natural elements such as seasons, plants,
+  rivers, mountains, or trees. Employ sensory and emotional language to evoke intimacy,
+  passion, growth, and endurance in love. Avoid humor, unrelated topics, or overly
+  simplistic themes. Maintain structured poetic forms with coherent rhyme or rhythm
+  to enhance lyrical quality.
+task_description: "You are a highly specialized Expert Agent operating within a larger\
+  \ multi-agent system. \nYou improve your performance through In-Context Reinforcement\
+  \ Learning by analyzing your past attempts and their associated reward scores.\n\
+  \n# SYSTEM CONTEXT:\n- Global Task: Poem writing.\n- Your Specific Expert Task:\
+  \ Write a poem about a romantic relationship in nature.\n\n# LEARNING INSTRUCTIONS\
+  \ (Exploration vs. Exploitation):\nBelow is your 'Experience Buffer'. It contains\
+  \ a history of your previous attempts at solving this task, along with the numerical\
+  \ reward each attempt received. \n1. Analyze the buffer carefully before generating\
+  \ your next response.\n2. Identify patterns: What actions led to a high reward?\
+  \ What actions resulted in a penalty (score of 0 or low)?\n3. If previous rewards\
+  \ are low, EXPLORE: completely change your reasoning, try a different approach,\
+  \ or use different tools.\n4. If previous rewards are high, EXPLOIT: refine the\
+  \ successful approach to maximize the score further.\n5. Do not repeat attempts\
+  \ that previously resulted in low rewards.\n6. Your final output MUST strictly adhere\
+  \ to the 'Required Output Format'. Do not output conversational text outside of\
+  \ this format.\n"

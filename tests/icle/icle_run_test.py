@@ -3,7 +3,6 @@ from icle import ICLE
 from dispatcher.core import DispatcherAgent
 import logging
 import pytest
-from fasticrl.icrl_learner import ICRLLearner
 
 from campus.core import Campus
 from caster.core import CasterAgent
@@ -28,11 +27,15 @@ def test_caster_run(g_data):
     caster = CasterAgent(
         model=g_data["model"], global_task=global_task, campus=campus
     )
+    caster.update_system_message()
+    LOGGER.info(caster.system_message)
 
     dispatcher: DispatcherAgent = DispatcherAgent(g_data["model"])
     
     
     icle: ICLE = ICLE(dispatcher_agent=dispatcher, caster_agent=caster)
+    
+    LOGGER.info(len(icle.caster_agent.campus.get_experts()))
     
     workflow_out: WorkflowRunOutput = icle.run(prompt, debug=True)
     

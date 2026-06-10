@@ -9,7 +9,9 @@ from pydantic import Field
 from campus.core import Campus
 from caster.models.caster_output import CasterOutput
 from caster.prompts import casting_agent_system_prompt
+import logging
 
+LOGGER = logging.getLogger(__name__)
 
 class CasterAgent(Agent):
 
@@ -24,20 +26,22 @@ class CasterAgent(Agent):
         self.campus = campus
         self.global_task = global_task
 
-        def train_new_expert(expert_task: str, expert_name: str) -> None:
+        def train_new_expert(expert_task: str, expert_name: str, short_description: str) -> None:
             self.campus.train_new_expert(
-                expert_name=expert_name, expert_task=expert_task
+                expert_name=expert_name, expert_task=expert_task, description=short_description
             )
+            LOGGER.info(f"TRAIN NEW EXPERT: {expert_name}")
 
         self.tools.append(train_new_expert)
 
     def update_system_message(self):
         experts = self.campus.get_experts()
 
-        expert_repr = "\n".join(f"{e.name}: {e.task_description}" for e in experts)
+        expert_repr = "\n".join(f"<id>{e.name}</id> <description>{e.description}</description>" for e in experts)
 
         self.system_message = casting_agent_system_prompt.format(
-            available_experts=expert_repr
+            available_experts=expert_repr,
+            global_task=self.global_task
         )
 
     @wraps(Agent.run)

@@ -63,7 +63,7 @@ class Campus(BaseModel):
 
         return task_list
 
-    def train_new_expert(self, expert_name: str, expert_task: str) -> None:
+    def train_new_expert(self, expert_name: str, expert_task: str, description: str) -> None:
         """Use this method to train a new expert for the campus.
         
         Args:
@@ -110,6 +110,7 @@ class Campus(BaseModel):
 
         agent_config: ExpertConfig = ExpertConfig(
             name=expert_name,
+            description=description,
             **learner.agent_save_state.model_dump(),
         )
         agent_config.to_yaml(self.save_path + f"/{expert_name}")
