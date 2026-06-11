@@ -39,11 +39,13 @@ class ICLE(Workflow):
         )
         
         self.assembler = Assembler(model=model)
+        
+        
 
         self.name = "ICLE Pipeline"
         self.steps = [
             Step(name=STEP_IDENTIFIER.DISPATCH, agent=self.dispatcher_agent),
             Step(name=STEP_IDENTIFIER.CAST, agent=self.caster_agent),
             Step(name=STEP_IDENTIFIER.RUNTIME, executor=self.runtime.runtime),
-            Step(name=STEP_IDENTIFIER.ASSEMBLE, agent=self.assembler)
+            Step(name=STEP_IDENTIFIER.ASSEMBLE, executor=self.assembler.assemble)
         ]
