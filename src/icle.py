@@ -1,3 +1,4 @@
+from assembler.core import Assembler
 from runtime.core import Runtime
 from campus.core import Campus
 from agno.models.base import Model
@@ -36,10 +37,13 @@ class ICLE(Workflow):
             model=model,
             expert_save_dir=expert_save_dir
         )
+        
+        self.assembler = Assembler(model=model)
 
         self.name = "ICLE Pipeline"
         self.steps = [
             Step(name=STEP_IDENTIFIER.DISPATCH, agent=self.dispatcher_agent),
             Step(name=STEP_IDENTIFIER.CAST, agent=self.caster_agent),
-            Step(name=STEP_IDENTIFIER.RUNTIME, executor=self.runtime.runtime)
+            Step(name=STEP_IDENTIFIER.RUNTIME, executor=self.runtime.runtime),
+            Step(name=STEP_IDENTIFIER.ASSEMBLE, agent=self.assembler)
         ]
