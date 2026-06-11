@@ -1,6 +1,4 @@
-
 from campus.core import Campus
-
 import pytest
 import logging
 

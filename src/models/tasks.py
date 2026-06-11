@@ -9,7 +9,7 @@ class DispatcherTask(BaseModel):
     
     def __str__(self) -> str:
         lines = [f"[{self.__class__.__name__}]"]
-        for field_name in self.model_fields:
+        for field_name in self.__class__.model_fields:
             value = getattr(self, field_name)
             lines.append(f"  {field_name}: {value}")
         return "\n".join(lines)
@@ -18,9 +18,9 @@ class DispatcherTask(BaseModel):
         return self.__str__()
 
     def to_xml(self) -> str:
-        fields_xml = "\n    ".join(
+        fields_xml = "\n\t".join(
             f"<{k}>{escape(str(getattr(self, k)))}</{k}>"
-            for k in self.model_fields
+            for k in self.__class__.model_fields
         )
         return f"<task>\n\t{fields_xml}\n</task>"
 

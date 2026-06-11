@@ -6,11 +6,9 @@ from agno.agent import Agent
 from agno.models.base import Model
 from agno.models.openai import OpenAIResponses
 from agno.run.agent import RunOutput
-from dotenv import load_dotenv
 from fasticrl.icrl_learner import ICRLLearner
-from loguru import logger
 from pydantic import BaseModel, ConfigDict, Field, SkipValidation
-
+import logging
 from campus.models.expert_config import ExpertConfig
 from campus.models.reward_output import RewardOutput
 from campus.models.training_task_list import TrainingTaskList
@@ -20,7 +18,7 @@ from campus.prompts import (
     reward_agent_system_prompt,
 )
 
-
+LOGGER = logging.getLogger(__name__)
 class Campus(BaseModel):
 
     model_config: ConfigDict = ConfigDict(arbitrary_types_allowed=True)
@@ -43,7 +41,7 @@ class Campus(BaseModel):
                 expert_config: ExpertConfig = ExpertConfig.from_yaml(yaml_file)
                 expert_configs.append(expert_config)
             except Exception as e:
-                logger.warning(
+                LOGGER.warning(
                     f"Could not load expert config ({str(yaml_file.absolute())}): {e}"
                 )
 
@@ -78,9 +76,9 @@ class Campus(BaseModel):
 
         expert_name = expert_name.replace(" ", "_").lower()
 
-        logger.debug(f"Creating synthetic tasks for '{expert_task}'...")
+        LOGGER.debug(f"Creating synthetic tasks for '{expert_task}'...")
         task_list: TrainingTaskList = self.__generate_synth_learning_tasks(expert_task)
-        logger.debug(f"...created {len(task_list.tasks)} tasks.")
+        LOGGER.debug(f"...created {len(task_list.tasks)} tasks.")
 
         def reward_func(model_output: str, task: str) -> int:
             reward_agent = Agent(
@@ -107,11 +105,11 @@ class Campus(BaseModel):
             tasks=task_list.tasks,
         )
 
-        logger.debug(f"Start training")
+        LOGGER.debug(f"Start training")
         learner.auto_learn()
         learner.update_strategy()
 
-        logger.debug("Saving expert...")
+        LOGGER.debug("Saving expert...")
 
         agent_config: ExpertConfig = ExpertConfig(
             name=expert_name,
@@ -120,4 +118,4 @@ class Campus(BaseModel):
         )
         agent_config.to_yaml(self.expert_save_dir + f"/{expert_name}")
 
-        logger.debug(f"Saved expert: {expert_name}")
+        LOGGER.debug(f"Saved expert: {expert_name}")
