@@ -2,15 +2,15 @@ from pydantic import BaseModel
 from agno.models.base import Model
 from agno.models.openai import OpenAIResponses
 from dotenv import load_dotenv
-from task import RuntimeTaskList
-from task import RuntimeTask
+from models.tasks import RuntimeTaskList
+from models.tasks import RuntimeTask
 from agno.run.agent import RunOutput
 from agno.agent import Agent
 from campus.models.expert_config import ExpertConfig
-from task import CasterTask
+from models.tasks import CasterTask
 from agno.workflow import StepInput, StepOutput
 
-from task import CasterTaskList
+from models.tasks import CasterTaskList
 import os
 import logging
 

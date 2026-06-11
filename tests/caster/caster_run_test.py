@@ -1,4 +1,4 @@
-from task import CasterTaskList
+from models.tasks import CasterTaskList
 from agno.run.agent import RunOutput
 import logging
 import random

@@ -1,4 +1,4 @@
-from task import DispatcherTaskList
+from models.tasks import DispatcherTaskList
 from functools import wraps
 
 from agno.agent import Agent

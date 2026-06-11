@@ -1,4 +1,4 @@
-from task import CasterTaskList
+from models.tasks import CasterTaskList
 from functools import wraps
 from typing import Annotated
 

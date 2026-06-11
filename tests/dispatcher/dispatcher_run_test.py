@@ -1,4 +1,4 @@
-from task import DispatcherTaskList
+from models.tasks import DispatcherTaskList
 from dispatcher.core import DispatcherAgent
 from agno.agent import Agent
 from agno.run.agent import RunOutput
