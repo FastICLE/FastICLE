@@ -26,7 +26,7 @@ class DispatcherTask(BaseModel):
 
 
 class CasterTask(DispatcherTask):
-    agent_id: Annotated[str, Field(description="Assigned Agent")]
+    agent_ids: Annotated[list[str], Field(description="Assigned Agent", default_factory=list)]
 
 
 class RuntimeTask(CasterTask):

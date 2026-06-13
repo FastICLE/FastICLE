@@ -1,4 +1,4 @@
-from models.tasks import CasterTaskList
+import logging
 from functools import wraps
 from typing import Annotated
 
@@ -8,8 +8,9 @@ from agno.run.agent import RunOutput
 from pydantic import Field
 
 from campus.core import Campus
-from caster.prompts import casting_agent_system_prompt
-import logging
+from caster.prompts import build_casting_prompt
+
+from models.tasks import CasterTaskList
 
 LOGGER = logging.getLogger(__name__)
 
@@ -19,15 +20,24 @@ class CasterAgent(Agent):
     campus: Campus
     global_task: str
     model: Model
+    multi_expert_mode: bool
 
     @wraps(Agent.__init__)
-    def __init__(self, model: Model, campus: Campus, global_task: str, **kwargs):
+    def __init__(
+        self,
+        model: Model,
+        campus: Campus,
+        global_task: str,
+        multi_expert_mode: bool,
+        **kwargs,
+    ):
         super().__init__()
 
         self.model = model
         self.output_schema = CasterTaskList
         self.campus = campus
         self.global_task = global_task
+        self.multi_expert_mode = multi_expert_mode
 
         def train_new_expert(
             expert_task: str, expert_name: str, short_description: str
@@ -49,12 +59,16 @@ class CasterAgent(Agent):
             for e in experts
         )
 
-        self.system_message = casting_agent_system_prompt.format(
-            available_experts=expert_repr, global_task=self.global_task
+        self.system_message = build_casting_prompt(
+            global_task=self.global_task,
+            available_experts=expert_repr,
+            multi_expert_mode=self.multi_expert_mode,
         )
 
     @wraps(Agent.run)
     def run(self, *args, **kwargs):
         self.update_system_message()
+        LOGGER.info("Caster System Message:")
+        LOGGER.info(self.system_message)
 
         return super().run(*args, **kwargs)

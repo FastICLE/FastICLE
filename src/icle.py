@@ -13,7 +13,7 @@ from dispatcher.core import DispatcherAgent
 class ICLE(Workflow):
 
     def __init__(
-        self, model: Model, global_task: str, expert_save_dir: str, **kwargs
+        self, model: Model, global_task: str, expert_save_dir: str, multi_expert_mode = False, **kwargs
     ):
         super().__init__(**kwargs)
 
@@ -26,7 +26,8 @@ class ICLE(Workflow):
         self.caster_agent: CasterAgent = CasterAgent(
             model=model,
             global_task=global_task,
-            campus=self.campus
+            campus=self.campus,
+            multi_expert_mode=multi_expert_mode
         )
         
         self.dispatcher_agent: DispatcherAgent = DispatcherAgent(
