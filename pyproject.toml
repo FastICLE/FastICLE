@@ -1,6 +1,6 @@
 [project]
 name = "icle"
-version = "1.0.0pre"
+version = "1.0.1pre"
 description = "TODO: Package description // refer to future paper"
 readme = "README.md"
 requires-python = ">=3.13"
