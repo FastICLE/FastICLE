@@ -4,9 +4,17 @@ from pydantic import BaseModel, Field
 
 
 class DispatcherTask(BaseModel):
-    task_id: Annotated[str, Field(description="Unique identifier for this task (e.g. 'T1', 'T2').")]
+    task_id: Annotated[
+        str, Field(description="Unique identifier for this task (e.g. 'T1', 'T2').")
+    ]
     description: Annotated[str, Field(description="Description of the task.")]
-    depends_on: Annotated[list[str], Field(description="List of task_ids that must complete before this task starts. Empty list means no dependencies.", default_factory=list)]
+    depends_on: Annotated[
+        list[str],
+        Field(
+            description="List of task_ids that must complete before this task starts. Empty list means no dependencies.",
+            default_factory=list,
+        ),
+    ]
 
     def __str__(self) -> str:
         lines = [f"[{self.__class__.__name__}]"]

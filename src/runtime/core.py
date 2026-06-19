@@ -26,9 +26,13 @@ class Runtime(BaseModel):
         batches = []
 
         while remaining:
-            ready = [t for t in remaining if all(dep in completed for dep in t.depends_on)]
+            ready = [
+                t for t in remaining if all(dep in completed for dep in t.depends_on)
+            ]
             if not ready:
-                raise ValueError(f"Dependency cycle detected among: {[t.task_id for t in remaining]}")
+                raise ValueError(
+                    f"Dependency cycle detected among: {[t.task_id for t in remaining]}"
+                )
             batches.append(ready)
             completed.update(t.task_id for t in ready)
             remaining = [t for t in remaining if t.task_id not in completed]
@@ -42,17 +46,24 @@ class Runtime(BaseModel):
 
         for batch in self._build_batches(caster_task_list.task_list):
             prior_outputs = list(runtime_task_list.task_list)
-            LOGGER.info(f"Running {len(batch)} task(s) in parallel: {[t.task_id for t in batch]}")
+            LOGGER.info(
+                f"Running {len(batch)} task(s) in parallel: {[t.task_id for t in batch]}"
+            )
 
             with ThreadPoolExecutor() as pool:
-                futures = [(task, pool.submit(self._run_task, task, prior_outputs)) for task in batch]
+                futures = [
+                    (task, pool.submit(self._run_task, task, prior_outputs))
+                    for task in batch
+                ]
 
             for task, future in futures:
                 runtime_task_list.task_list.append(future.result())
 
         return StepOutput(content=runtime_task_list)
 
-    def _run_task(self, caster_task: CasterTask, prior_outputs: list[RuntimeTask] | None = None):
+    def _run_task(
+        self, caster_task: CasterTask, prior_outputs: list[RuntimeTask] | None = None
+    ):
         load_dotenv()
         path: str = self.expert_save_dir
         experts: list[Agent] = []
@@ -65,8 +76,14 @@ class Runtime(BaseModel):
 
         team: Team = Team(members=experts, model=self.model)
 
-        prior_context = RuntimeTaskList(task_list=prior_outputs).to_xml() if prior_outputs else ""
-        prompt = f"{prior_context}\n\n{caster_task.description}" if prior_context else caster_task.description
+        prior_context = (
+            RuntimeTaskList(task_list=prior_outputs).to_xml() if prior_outputs else ""
+        )
+        prompt = (
+            f"{prior_context}\n\n{caster_task.description}"
+            if prior_context
+            else caster_task.description
+        )
 
         expert_out: RunOutput = team.run(prompt)
 
