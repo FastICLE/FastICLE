@@ -7,6 +7,12 @@ from dotenv import load_dotenv
 import pytest
 
 
+@pytest.fixture(scope="session")
+def mock_model() -> Model:
+    """Lightweight model fixture for unit tests — no real API key required."""
+    return OpenAIResponses(id="gpt-4.1-mini", api_key="test-key-unit-tests-only")
+
+
 @pytest.fixture
 def g_data() -> dict:
     return {"model": __get_model(provider_key=os.getenv("PROVIDER_KEY", "OPENAI"))}

@@ -1,22 +1,36 @@
-from dispatcher.core import DispatcherAgent
-from agno.models.base import Model
 from agno.agent import Agent
+from agno.models.base import Model
 
 from dispatcher.core import DispatcherAgent
+from models.tasks import DispatcherTaskList
 
-def test_instance_name(g_data):
-    dispatcher: Agent = DispatcherAgent(g_data["model"])
-    assert dispatcher.name
 
-def test_instance_description(g_data):
-    dispatcher: Agent = DispatcherAgent(g_data["model"])
+def test_instance_name(mock_model):
+    dispatcher = DispatcherAgent(mock_model)
+    assert dispatcher.name == "Dispatcher"
+
+
+def test_instance_description(mock_model):
+    dispatcher = DispatcherAgent(mock_model)
     assert dispatcher.description
+    assert "Dispatcher" in dispatcher.description
 
-def test_instance_model(g_data):
-    dispatcher: Agent = DispatcherAgent(g_data["model"])
-    assert dispatcher.model
-    
-def test_instance_is_instance(g_data):
-    dispatcher: Agent = DispatcherAgent(g_data["model"])
+
+def test_instance_model_is_set(mock_model):
+    dispatcher = DispatcherAgent(mock_model)
+    assert dispatcher.model is not None
+
+
+def test_instance_model_is_correct_type(mock_model):
+    dispatcher = DispatcherAgent(mock_model)
     assert isinstance(dispatcher.model, Model)
 
+
+def test_instance_is_agent(mock_model):
+    dispatcher = DispatcherAgent(mock_model)
+    assert isinstance(dispatcher, Agent)
+
+
+def test_output_schema_is_dispatcher_task_list(mock_model):
+    dispatcher = DispatcherAgent(mock_model)
+    assert dispatcher.output_schema == DispatcherTaskList
