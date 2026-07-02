@@ -1,5 +1,6 @@
 import logging
 import os
+import time
 from pathlib import Path
 from typing import Annotated
 
@@ -16,7 +17,7 @@ from icle.campus.prompts import (
     ICRL_AGENT_SYSTEM_PROMPT,
 )
 
-LOGGER = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 class Campus(BaseModel):
@@ -44,9 +45,11 @@ class Campus(BaseModel):
             try:
                 expert_config: ExpertConfig = ExpertConfig.from_yaml(yaml_file)
                 expert_configs.append(expert_config)
-            except Exception as e:
-                LOGGER.warning(
-                    f"Could not load expert config ({str(yaml_file.absolute())}): {e}"
+            except Exception:
+                logger.warning(
+                    "Could not load expert config (%s)",
+                    yaml_file.absolute(),
+                    exc_info=True,
                 )
 
         return expert_configs
@@ -79,7 +82,7 @@ class Campus(BaseModel):
         """
 
         expert_name = expert_name.replace(" ", "_").lower()
-        LOGGER.info(f"New expert is being created: {expert_name}")
+        logger.info("Training new expert: %s", expert_name)
         task_list: TrainingTaskList = self.__generate_synth_learning_tasks(expert_task)
 
         learner = ICRLLearner(
@@ -92,14 +95,23 @@ class Campus(BaseModel):
             tasks=task_list.tasks,
         )
 
+        start = time.perf_counter()
         learner.auto_learn()
         learner.update_strategy()
+        elapsed = time.perf_counter() - start
+        logger.info(
+            "Trained new expert '%s' on %d task(s) in %.1fs",
+            expert_name,
+            len(task_list.tasks),
+            elapsed,
+        )
 
         agent_config: ExpertConfig = ExpertConfig(
             name=expert_name,
             description=description,
             **learner.agent_save_state.model_dump(),
         )
-        agent_config.to_yaml(self.expert_save_dir + f"/{expert_name}")
+        save_path = self.expert_save_dir + f"/{expert_name}"
+        agent_config.to_yaml(save_path)
 
-        LOGGER.info(f"{expert_name.capitalize()} was created.")
+        logger.info("Expert '%s' saved to %s", expert_name, save_path)
