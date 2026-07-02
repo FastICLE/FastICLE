@@ -30,8 +30,8 @@ class TestCampusInstantiation:
     def test_auto_save_default_true(self, campus):
         assert campus.auto_save is True
 
-    def test_agent_configs_default_empty(self, campus):
-        assert campus.agent_configs == []
+    def test_in_memory_experts_default_empty(self, campus):
+        assert campus.in_memory_experts == []
 
     def test_auto_save_can_be_disabled(self, mock_model):
         campus = Campus(

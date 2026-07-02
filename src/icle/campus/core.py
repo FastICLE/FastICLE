@@ -30,7 +30,9 @@ class Campus(BaseModel):
         str, Field(default_factory=lambda: os.environ.get("EXPERT_SAVE_DIR", "./"))
     ]
     auto_save: Annotated[bool, Field(default=True)]
-    agent_configs: Annotated[list[ExpertConfig], Field(default_factory=list)]
+    # Experts trained with auto_save disabled; they exist only for the
+    # lifetime of this Campus instance and are never written to disk.
+    in_memory_experts: Annotated[list[ExpertConfig], Field(default_factory=list)]
 
     learner_model: Model
     reward_model: Model
@@ -39,12 +41,12 @@ class Campus(BaseModel):
     task_generator_model: Model
 
     def get_experts(self) -> list[ExpertConfig]:
-        expert_configs: list[ExpertConfig] = list()
+        experts_by_name: dict[str, ExpertConfig] = {}
 
         for yaml_file in Path(self.expert_save_dir).glob("*.yaml"):
             try:
                 expert_config: ExpertConfig = ExpertConfig.from_yaml(yaml_file)
-                expert_configs.append(expert_config)
+                experts_by_name[expert_config.name] = expert_config
             except Exception:
                 logger.warning(
                     "Could not load expert config (%s)",
@@ -52,7 +54,12 @@ class Campus(BaseModel):
                     exc_info=True,
                 )
 
-        return expert_configs
+        # Experts trained with auto_save disabled only exist in memory;
+        # on a name clash they take precedence over saved ones.
+        for expert_config in self.in_memory_experts:
+            experts_by_name[expert_config.name] = expert_config
+
+        return list(experts_by_name.values())
 
     def __generate_synth_learning_tasks(self, expert_task):
         task_agent = Agent(
@@ -111,7 +118,13 @@ class Campus(BaseModel):
             description=description,
             **learner.agent_save_state.model_dump(),
         )
-        save_path = self.expert_save_dir + f"/{expert_name}"
-        agent_config.to_yaml(save_path)
-
-        logger.info("Expert '%s' saved to %s", expert_name, save_path)
+        if self.auto_save:
+            save_path = self.expert_save_dir + f"/{expert_name}"
+            agent_config.to_yaml(save_path)
+            logger.info("Expert '%s' saved to %s", expert_name, save_path)
+        else:
+            self.in_memory_experts.append(agent_config)
+            logger.info(
+                "Auto-save disabled, expert '%s' is kept in memory only",
+                expert_name,
+            )
