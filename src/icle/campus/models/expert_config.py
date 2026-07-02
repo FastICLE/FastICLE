@@ -19,13 +19,17 @@ class ExpertConfig(AgentSaveState):
         ),
     ]
 
-    def to_yaml(self, path: str):
+    def to_yaml(self, path: str) -> str:
+        """Write this config to `path` (appending the .yaml suffix if
+        missing) and return the path actually written."""
 
         if not path.endswith(YAML_SUFFIX):
             path += YAML_SUFFIX
 
         with open(path, "w") as outfile:
             yaml.dump(self.model_dump(mode="json"), outfile, default_flow_style=False)
+
+        return path
 
     def to_agent(self) -> Agent:
         return Agent(name=self.name, system_message=self.description)

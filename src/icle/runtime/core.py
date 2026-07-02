@@ -54,8 +54,8 @@ class Runtime(BaseModel):
 
         caster_task_list: CasterTaskList = step_input.get_last_step_content()
 
+        prior_xml_by_id: dict[str, str] = {}
         for batch in self._build_batches(caster_task_list.task_list):
-            prior_xml_by_id = {t.task_id: t.to_xml() for t in runtime_task_list.task_list}
             logger.info(
                 "Running %d task(s) in parallel: %s",
                 len(batch),
@@ -76,7 +76,9 @@ class Runtime(BaseModel):
                 ]
 
             for task, future in futures:
-                runtime_task_list.task_list.append(future.result())
+                runtime_task: RuntimeTask = future.result()
+                runtime_task_list.task_list.append(runtime_task)
+                prior_xml_by_id[runtime_task.task_id] = runtime_task.to_xml()
 
         return StepOutput(content=runtime_task_list)
 

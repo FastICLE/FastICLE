@@ -119,8 +119,7 @@ class Campus(BaseModel):
             **learner.agent_save_state.model_dump(),
         )
         if self.auto_save:
-            save_path = self.expert_save_dir + f"/{expert_name}"
-            agent_config.to_yaml(save_path)
+            save_path = agent_config.to_yaml(self.expert_save_dir + f"/{expert_name}")
             logger.info("Expert '%s' saved to %s", expert_name, save_path)
         else:
             self.in_memory_experts.append(agent_config)
