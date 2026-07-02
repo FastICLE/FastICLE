@@ -14,7 +14,7 @@ from icle.campus.models.expert_config import ExpertConfig
 from icle.models.tasks import CasterTask, CasterTaskList, RuntimeTask, RuntimeTaskList
 
 load_dotenv()
-LOGGER = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 class Runtime(BaseModel):
@@ -56,8 +56,10 @@ class Runtime(BaseModel):
 
         for batch in self._build_batches(caster_task_list.task_list):
             prior_xml_by_id = {t.task_id: t.to_xml() for t in runtime_task_list.task_list}
-            LOGGER.info(
-                f"Running {len(batch)} task(s) in parallel: {[t.task_id for t in batch]}"
+            logger.info(
+                "Running %d task(s) in parallel: %s",
+                len(batch),
+                [t.task_id for t in batch],
             )
 
             with ThreadPoolExecutor() as pool:
