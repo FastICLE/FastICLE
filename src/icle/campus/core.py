@@ -76,6 +76,13 @@ class Campus(BaseModel):
             run_output.content
         )
 
+        for task in task_list.tasks:
+            logger.debug(
+                "Training task: %s | Relevance: %s",
+                task.task,
+                task.relevance_justification,
+            )
+
         return task_list
 
     def train_new_expert(
@@ -99,7 +106,7 @@ class Campus(BaseModel):
             task_description=ICRL_AGENT_SYSTEM_PROMPT.format(
                 global_task=self.global_task, expert_task=expert_task
             ),
-            tasks=task_list.tasks,
+            tasks=task_list.task_prompts,
         )
 
         start = time.perf_counter()
