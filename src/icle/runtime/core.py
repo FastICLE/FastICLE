@@ -12,7 +12,11 @@ from pydantic import BaseModel
 
 from icle.campus.models.expert_config import ExpertConfig
 from icle.models.tasks import CasterTask, CasterTaskList, RuntimeTask, RuntimeTaskList
-from icle.runtime.prompts import DEPENDENCY_CONTEXT_PREAMBLE
+from icle.runtime.prompts import (
+    DEPENDENCY_CONTEXT_PREAMBLE,
+    ORIGINAL_REQUEST_PREAMBLE,
+    TASK_EXECUTION_INSTRUCTIONS,
+)
 
 load_dotenv()
 logger = logging.getLogger(__name__)
@@ -55,6 +59,10 @@ class Runtime(BaseModel):
 
         caster_task_list: CasterTaskList = step_input.get_last_step_content()
 
+        # The workflow's original input — every task gets it as background so
+        # details a lossy task description dropped are still recoverable.
+        original_request = str(step_input.input) if step_input.input else ""
+
         prior_tasks_by_id: dict[str, RuntimeTask] = {}
         for batch in self._build_batches(caster_task_list.task_list):
             logger.info(
@@ -71,6 +79,7 @@ class Runtime(BaseModel):
                             self._run_task,
                             task,
                             self._build_prior_context(task, prior_tasks_by_id),
+                            original_request,
                         ),
                     )
                     for task in batch
@@ -111,7 +120,12 @@ class Runtime(BaseModel):
             f"<dependency_outputs>\n{dep_xmls}\n</dependency_outputs>"
         )
 
-    def _run_task(self, caster_task: CasterTask, prior_context: str = ""):
+    def _run_task(
+        self,
+        caster_task: CasterTask,
+        prior_context: str = "",
+        original_request: str = "",
+    ):
         if not caster_task.agent_ids:
             raise ValueError(
                 f"Task '{caster_task.task_id}' has no assigned agents — cannot execute."
@@ -126,13 +140,22 @@ class Runtime(BaseModel):
             ).to_agent()
             experts.append(expert)
 
-        team: Team = Team(members=experts, model=copy.deepcopy(self.model))
-
-        prompt = (
-            f"{prior_context}\n\n{caster_task.description}"
-            if prior_context
-            else caster_task.description
+        team: Team = Team(
+            members=experts,
+            model=copy.deepcopy(self.model),
+            instructions=TASK_EXECUTION_INSTRUCTIONS,
         )
+
+        sections: list[str] = []
+        if original_request:
+            sections.append(
+                f"{ORIGINAL_REQUEST_PREAMBLE}\n"
+                f"<original_user_request>\n{original_request}\n</original_user_request>"
+            )
+        if prior_context:
+            sections.append(prior_context)
+        sections.append(caster_task.description)
+        prompt = "\n\n".join(sections)
 
         logger.debug("Task [%s] prompt:\n%s", caster_task.task_id, prompt)
 
