@@ -5,6 +5,7 @@ import pytest
 
 from icle.campus.core import Campus
 from icle.campus.models.expert_config import ExpertConfig
+from icle.campus.models.training_task_list import TrainingTask, TrainingTaskList
 
 DUMMY_EXPERTS_DIR = str(Path(__file__).parent.parent / "data" / "dummy_experts")
 
@@ -143,5 +144,77 @@ class TestCampusSkipsExistingExperts:
         assert result == "general_poem_writer"
         MockAgent.assert_not_called()
         MockLearner.assert_not_called()
+
+
+class TestCampusReusesNamedExpert:
+    """LLM callers demonstrably train rebranded variants of existing experts
+    despite prompt rules. The rule is therefore simple and hard: if the caller
+    names an existing expert as able to cover the task, that expert is reused
+    — training requires an explicit 'none'."""
+
+    def _make_training_campus(self, mock_model, tmp_path) -> Campus:
+        ExpertConfig(
+            name="nature_poem_writer", description="d", task_description="t"
+        ).to_yaml(str(tmp_path / "nature_poem_writer"))
+        return Campus(
+            global_task="Write poems.",
+            expert_save_dir=str(tmp_path),
+            learner_model=mock_model,
+            reward_model=mock_model,
+            strategy_model=mock_model,
+            task_generator_model=mock_model,
+        )
+
+    def _train(self, campus, expert_name, closest):
+        task_list = TrainingTaskList(
+            tasks=[TrainingTask(task="Write a poem.", relevance_justification="r")]
+        )
+        with (
+            patch("icle.campus.core.Agent") as MockAgent,
+            patch("icle.campus.core.ICRLLearner") as MockLearner,
+        ):
+            MockAgent.return_value.run.return_value.content = task_list
+            MockLearner.return_value.agent_save_state.model_dump.return_value = {
+                "task_description": "t",
+                "strategy": "s",
+                "buffer": [],
+            }
+            return campus.train_new_expert(
+                expert_name=expert_name,
+                expert_task="Write poems.",
+                description="d",
+                closest_existing_expert=closest,
+            )
+
+    def test_named_existing_expert_is_reused(self, mock_model, tmp_path):
+        campus = self._make_training_campus(mock_model, tmp_path)
+
+        result = self._train(
+            campus, "nature_poem_specialist", closest="nature_poem_writer"
+        )
+
+        assert result == "nature_poem_writer"
+        assert not (tmp_path / "nature_poem_specialist.yaml").exists()
+
+    def test_none_triggers_training(self, mock_model, tmp_path):
+        campus = self._make_training_campus(mock_model, tmp_path)
+
+        result = self._train(campus, "cyberpunk_poem_writer", closest="none")
+
+        assert result == "cyberpunk_poem_writer"
+        assert (tmp_path / "cyberpunk_poem_writer.yaml").is_file()
+
+    def test_nonexistent_closest_falls_through_to_training(
+        self, mock_model, tmp_path
+    ):
+        """A hallucinated expert id must not block training."""
+        campus = self._make_training_campus(mock_model, tmp_path)
+
+        result = self._train(
+            campus, "cyberpunk_poem_writer", closest="made_up_expert"
+        )
+
+        assert result == "cyberpunk_poem_writer"
+        assert (tmp_path / "cyberpunk_poem_writer.yaml").is_file()
 
 

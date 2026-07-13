@@ -147,7 +147,9 @@ Maximize reuse of CURRENTLY AVAILABLE EXPERTS, but ensure they fit the specific 
 # INSTRUCTIONS:
 1. Analyze the incoming sub-tasks to identify the skills/themes required.
 2. For EVERY theme not already covered by an available expert, call the `train_new_expert` tool
-   (provide: expert_name / short_description / expert_task). {training_rule}
+   (provide: expert_name / short_description / expert_task / closest_existing_expert — the exact
+   ID of an expert in <experts> that can cover this task, or "none". Naming an expert REUSES it
+   instead of training; set it to "none" ONLY when no available expert fits). {training_rule}
 3. Call the tool once per missing expert. If all needed experts already exist, call nothing.
 4. When finished, briefly state which experts you trained (or that none were needed).
    DO NOT output task assignments — that is a later step.

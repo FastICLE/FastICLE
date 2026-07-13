@@ -60,15 +60,41 @@ class CasterAgent(Agent):
         prepared: list[str] = []
 
         def train_new_expert(
-            expert_task: str, expert_name: str, short_description: str
+            expert_task: str,
+            expert_name: str,
+            short_description: str,
+            closest_existing_expert: str,
         ) -> str:
-            logger.info(f"Requesting new expert: {expert_name}")
+            """Train a new expert. Before calling, check the available experts.
+
+            Args:
+                expert_task: Task the expert must master.
+                expert_name: Name for the new expert (becomes its ID).
+                short_description: One-line description for later assignment.
+                closest_existing_expert: Exact ID of an expert from the
+                    <experts> list that can cover this task, or "none".
+                    Naming an expert means it will be REUSED — no training
+                    happens. Training requires an explicit "none".
+            """
+            logger.info(
+                "Requesting new expert: %s (closest existing: %s)",
+                expert_name,
+                closest_existing_expert,
+            )
             name = self.campus.train_new_expert(
                 expert_name=expert_name,
                 expert_task=expert_task,
                 description=short_description,
+                closest_existing_expert=closest_existing_expert,
             )
             prepared.append(name)
+
+            requested = expert_name.replace(" ", "_").lower()
+            if name != requested:
+                return (
+                    f"Reusing existing expert '{name}' instead of training "
+                    f"'{requested}'. Assign '{name}'."
+                )
             return f"Expert '{name}' is available."
 
         trainer = Agent(

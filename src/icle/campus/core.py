@@ -96,16 +96,25 @@ class Campus(BaseModel):
         return (Path(self.expert_save_dir) / f"{expert_name}.yaml").is_file()
 
     def train_new_expert(
-        self, expert_name: str, expert_task: str, description: str
+        self,
+        expert_name: str,
+        expert_task: str,
+        description: str,
+        closest_existing_expert: str = "",
     ) -> str:
         """Use this method to train a new expert for the campus.
 
         Args:
             expert_name (str): Name of the expert. Used later for task allocation
             expert_task (str): Task the expert is the specialist for.
+            closest_existing_expert (str): Existing expert the caller judged
+                able to cover this task ("" or "none" if there is none). If it
+                names an existing expert, that expert is REUSED and no training
+                happens — training requires an explicit "none".
 
         Returns:
-            The normalized expert name (the assignable ID).
+            The normalized expert name (the assignable ID) — either the newly
+            trained expert or the existing one that was reused.
         """
 
         expert_name = expert_name.replace(" ", "_").lower()
@@ -119,6 +128,18 @@ class Campus(BaseModel):
                 expert_name,
             )
             return expert_name
+
+        # The caller itself named an existing expert for this task — reuse it.
+        # Training only happens when the caller explicitly declares "none".
+        closest = (closest_existing_expert or "").replace(" ", "_").lower()
+        if closest and closest != "none" and self.has_expert(closest):
+            logger.info(
+                "Caller named existing expert '%s' for requested '%s' "
+                "— reusing it instead of training.",
+                closest,
+                expert_name,
+            )
+            return closest
 
         logger.info("Training new expert: %s", expert_name)
         task_list: TrainingTaskList = self.__generate_synth_learning_tasks(expert_task)

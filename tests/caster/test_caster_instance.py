@@ -62,6 +62,7 @@ def test_train_tool_delegates_to_campus_and_collects_names(mock_model, campus):
                 expert_task="Write haikus.",
                 expert_name="New Expert",
                 short_description="Haiku specialist.",
+                closest_existing_expert="none",
             )
 
         MockAgent.return_value.run.side_effect = invoke_tool
