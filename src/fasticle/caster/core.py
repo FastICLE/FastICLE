@@ -6,10 +6,10 @@ from functools import wraps
 from agno.agent import Agent
 from agno.models.base import Model
 
-from icle.campus.core import Campus
-from icle.caster.prompts import build_casting_prompt, build_training_prompt
+from fasticle.campus.core import Campus
+from fasticle.caster.prompts import build_casting_prompt, build_training_prompt
 
-from icle.models.tasks import CasterTaskList, DispatcherTaskList
+from fasticle.models.tasks import CasterTaskList, DispatcherTaskList
 
 logger = logging.getLogger(__name__)
 

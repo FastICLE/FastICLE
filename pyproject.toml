@@ -1,5 +1,5 @@
 [project]
-name = "icle"
+name = "FastICLE"
 version = "1.0.3"
 description = "Multi-agent framework that trains and orchestrates specialized Expert Agents on-demand via In-Context Reinforcement Learning."
 readme = "README.md"

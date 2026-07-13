@@ -3,9 +3,9 @@ from unittest.mock import patch
 
 import pytest
 
-from icle.campus.core import Campus
-from icle.campus.models.expert_config import ExpertConfig
-from icle.campus.models.training_task_list import TrainingTask, TrainingTaskList
+from fasticle.campus.core import Campus
+from fasticle.campus.models.expert_config import ExpertConfig
+from fasticle.campus.models.training_task_list import TrainingTask, TrainingTaskList
 
 DUMMY_EXPERTS_DIR = str(Path(__file__).parent.parent / "data" / "dummy_experts")
 
@@ -131,8 +131,8 @@ class TestCampusSkipsExistingExperts:
 
     def test_existing_expert_is_not_retrained(self, campus):
         with (
-            patch("icle.campus.core.Agent") as MockAgent,
-            patch("icle.campus.core.ICRLLearner") as MockLearner,
+            patch("fasticle.campus.core.Agent") as MockAgent,
+            patch("fasticle.campus.core.ICRLLearner") as MockLearner,
         ):
             # "General Poem Writer" normalizes to the existing id.
             result = campus.train_new_expert(
@@ -170,8 +170,8 @@ class TestCampusReusesNamedExpert:
             tasks=[TrainingTask(task="Write a poem.", relevance_justification="r")]
         )
         with (
-            patch("icle.campus.core.Agent") as MockAgent,
-            patch("icle.campus.core.ICRLLearner") as MockLearner,
+            patch("fasticle.campus.core.Agent") as MockAgent,
+            patch("fasticle.campus.core.ICRLLearner") as MockLearner,
         ):
             MockAgent.return_value.run.return_value.content = task_list
             MockLearner.return_value.agent_save_state.model_dump.return_value = {

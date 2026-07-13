@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from fasticrl.models.attempt import Attempt
 import pytest
 
-from icle.campus.models.expert_config import ExpertConfig
+from fasticle.campus.models.expert_config import ExpertConfig
 
 DUMMY_EXPERTS_DIR = Path(__file__).parent / "data" / "dummy_experts"
 

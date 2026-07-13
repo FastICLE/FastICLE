@@ -2,7 +2,7 @@ import logging
 
 import pytest
 
-from icle.log_setup import PACKAGE_LOGGER_NAME, enable_verbose_logging
+from fasticle.log_setup import PACKAGE_LOGGER_NAME, enable_verbose_logging
 
 
 @pytest.fixture(autouse=True)
@@ -20,7 +20,7 @@ def restore_icle_logger():
 
 
 def _verbose_handlers(logger: logging.Logger) -> list[logging.Handler]:
-    return [h for h in logger.handlers if getattr(h, "_icle_verbose_handler", False)]
+    return [h for h in logger.handlers if getattr(h, "_fasticle_verbose_handler", False)]
 
 
 def test_attaches_console_and_file_handlers(tmp_path):
@@ -56,8 +56,8 @@ def test_step_messages_reach_log_file(tmp_path):
     log_file = tmp_path / "run.log"
     logger = enable_verbose_logging(str(log_file))
 
-    # Component modules log via child loggers that propagate to "icle".
-    logging.getLogger("icle.runtime.core").debug("Task [T1] output:\nhello")
+    # Component modules log via child loggers that propagate to "fasticle".
+    logging.getLogger("fasticle.runtime.core").debug("Task [T1] output:\nhello")
 
     for handler in logger.handlers:
         handler.flush()
@@ -65,10 +65,10 @@ def test_step_messages_reach_log_file(tmp_path):
 
 
 def test_icle_constructor_enables_verbose(tmp_path, mock_model):
-    from icle import ICLE
+    from fasticle import FastICLE
 
     log_file = tmp_path / "pipeline.log"
-    ICLE(
+    FastICLE(
         model=mock_model,
         global_task="Testing.",
         expert_save_dir=str(tmp_path),
@@ -81,9 +81,9 @@ def test_icle_constructor_enables_verbose(tmp_path, mock_model):
 
 
 def test_icle_constructor_defaults_to_quiet(tmp_path, mock_model):
-    from icle import ICLE
+    from fasticle import FastICLE
 
-    ICLE(
+    FastICLE(
         model=mock_model,
         global_task="Testing.",
         expert_save_dir=str(tmp_path),

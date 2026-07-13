@@ -1,18 +1,18 @@
 import logging
 import sys
 
-PACKAGE_LOGGER_NAME = "icle"
+PACKAGE_LOGGER_NAME = "fasticle"
 
 # Attribute set on handlers created here so re-enabling replaces them
 # instead of stacking duplicates.
-_HANDLER_MARKER = "_icle_verbose_handler"
+_HANDLER_MARKER = "_fasticle_verbose_handler"
 
 _FORMAT = "%(asctime)s [%(levelname)8s] %(name)s: %(message)s"
 _DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 
-def enable_verbose_logging(log_file: str | None = "icle.log") -> logging.Logger:
-    """Log every pipeline step of the `icle` package to the console and,
+def enable_verbose_logging(log_file: str | None = "fasticle.log") -> logging.Logger:
+    """Log every pipeline step of the `fasticle` package to the console and,
     unless `log_file` is None, to a file.
 
     Console output goes to stderr. Safe to call repeatedly: previously

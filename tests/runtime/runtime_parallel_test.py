@@ -4,8 +4,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from icle.models.tasks import CasterTask, CasterTaskList, RuntimeTask
-from icle.runtime.core import Runtime
+from fasticle.models.tasks import CasterTask, CasterTaskList, RuntimeTask
+from fasticle.runtime.core import Runtime
 
 LOGGER = __import__("logging").getLogger(__name__)
 

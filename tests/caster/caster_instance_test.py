@@ -1,5 +1,5 @@
-from icle.campus.core import Campus
-from icle.caster.core import CasterAgent
+from fasticle.campus.core import Campus
+from fasticle.caster.core import CasterAgent
 
 
 def test_instance():

@@ -1,6 +1,6 @@
-# ICLE — In-Context Learning Experts
+# FastICLE
 
-**ICLE** is a multi-agent AI framework that dynamically trains and orchestrates specialized *Expert Agents* to solve complex, multi-step tasks. Experts are trained on-demand using **In-Context Reinforcement Learning (ICRL)** and persist across runs, accumulating refined strategies over time.
+**FastICLE** is a multi-agent AI framework implementing the **ICLE (In-Context Learning Experts)** paradigm: it dynamically trains and orchestrates specialized *Expert Agents* to solve complex, multi-step tasks. Experts are trained on-demand using **In-Context Reinforcement Learning (ICRL)** and persist across runs, accumulating refined strategies over time.
 
 ![Framework Architecture](./assets/framework_architecture.png)
 
@@ -8,7 +8,7 @@
 
 ## How It Works
 
-ICLE decomposes any task into a four-stage pipeline:
+FastICLE decomposes any task into a four-stage pipeline:
 
 ```text
 User Input
@@ -56,8 +56,8 @@ The `CasterAgent` supports two modes:
 Requires Python ≥ 3.13 and [uv](https://docs.astral.sh/uv/).
 
 ```bash
-git clone https://github.com/makoeta/ICLE.git
-cd ICLE
+git clone https://github.com/makoeta/FastICLE.git
+cd FastICLE
 make install        # runtime dependencies only
 make install-dev    # + test dependencies (pytest, openai test client)
 ```
@@ -79,11 +79,11 @@ OPENAI_API_KEY=sk-...
 
 ```python
 from agno.models.openai import OpenAIChat
-from icle import ICLE
+from fasticle import FastICLE
 
 model = OpenAIChat(id="gpt-4o")
 
-pipeline = ICLE(
+pipeline = FastICLE(
     model=model,
     global_task="Write poems.",
     expert_save_dir="./experts",
@@ -101,17 +101,17 @@ On the first run the Caster will train any missing experts before executing. On 
 Pass `verbose=True` to log every pipeline step — dispatched task graph, expert assignments, per-task runtime outputs, expert training, and the final synthesis — to the console **and** a log file:
 
 ```python
-pipeline = ICLE(..., verbose=True)                       # logs to console + ./icle.log
-pipeline = ICLE(..., verbose=True, log_file="run.log")   # custom log file
-pipeline = ICLE(..., verbose=True, log_file=None)        # console only
+pipeline = FastICLE(..., verbose=True)                       # logs to console + ./fasticle.log
+pipeline = FastICLE(..., verbose=True, log_file="run.log")   # custom log file
+pipeline = FastICLE(..., verbose=True, log_file=None)        # console only
 ```
 
 Step summaries are logged at `INFO`; full step contents (system prompts — including each expert's learned strategy and experience buffer —, input prompts, task outputs, final answer) at `DEBUG`. Outside the pipeline you can enable the same logging directly:
 
 ```python
-from icle.log_setup import enable_verbose_logging
+from fasticle.log_setup import enable_verbose_logging
 
-enable_verbose_logging("icle.log")
+enable_verbose_logging("fasticle.log")
 ```
 
 ---
@@ -119,8 +119,8 @@ enable_verbose_logging("icle.log")
 ## Project Structure
 
 ```text
-src/icle/
-├── __init__.py           # Top-level ICLE workflow (exports ICLE)
+src/fasticle/
+├── __init__.py           # Top-level FastICLE workflow (exports FastICLE)
 ├── dispatcher/           # Decomposes input into a task graph
 ├── caster/               # Expert assignment & on-demand training
 ├── campus/               # Expert training via ICRL

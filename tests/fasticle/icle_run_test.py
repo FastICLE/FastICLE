@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from agno.run.workflow import WorkflowRunOutput
-from icle import ICLE
+from fasticle import FastICLE
 import logging
 import pytest
 
@@ -23,11 +23,11 @@ global_task = "Writing blog posts for a fake blog."
 
 @pytest.mark.api
 def test_caster_run(g_data):
-    icle: ICLE = ICLE(global_task=global_task, model=g_data["model"], multi_expert_mode=True, expert_save_dir=DUMMY_EXPERTS_DIR)
+    fasticle: FastICLE = FastICLE(global_task=global_task, model=g_data["model"], multi_expert_mode=True, expert_save_dir=DUMMY_EXPERTS_DIR)
 
-    LOGGER.info(len(icle.caster_agent.campus.get_experts()))
+    LOGGER.info(len(fasticle.caster_agent.campus.get_experts()))
 
-    workflow_out: WorkflowRunOutput = icle.run(prompt, debug=True)
+    workflow_out: WorkflowRunOutput = fasticle.run(prompt, debug=True)
 
 
     LOGGER.info(workflow_out.content)
@@ -42,14 +42,14 @@ def test_caster_run(g_data):
 def test_run_reports_used_experts(g_data):
     # A poem prompt over poem experts, so the Caster reuses the pre-seeded
     # dummy experts rather than training new ones.
-    icle: ICLE = ICLE(
+    fasticle: FastICLE = FastICLE(
         global_task="Poem writing.",
         model=g_data["model"],
         multi_expert_mode=False,
         expert_save_dir=DUMMY_EXPERTS_DIR,
     )
 
-    workflow_out: WorkflowRunOutput = icle.run(
+    workflow_out: WorkflowRunOutput = fasticle.run(
         "Write a short poem about autumn leaves.", debug=True
     )
 

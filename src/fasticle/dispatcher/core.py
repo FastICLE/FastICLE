@@ -1,12 +1,12 @@
 import logging
 
-from icle.models.tasks import DispatcherTaskList
+from fasticle.models.tasks import DispatcherTaskList
 from functools import wraps
 
 from agno.agent import Agent
 from agno.models.base import Model
 
-from icle.dispatcher.prompts import DISPATCHER_SYSTEM_PROMPT
+from fasticle.dispatcher.prompts import DISPATCHER_SYSTEM_PROMPT
 
 logger = logging.getLogger(__name__)
 

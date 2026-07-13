@@ -1,4 +1,4 @@
-from icle.caster.prompts import (
+from fasticle.caster.prompts import (
     CASTING_AGENT_SYSTEM_PROMPT,
     CASTING_MULTI_MODE_SUB_PROMPT,
     CASTING_SINGLE_MODE_SUB_PROMPT,

@@ -3,8 +3,8 @@ from agno.run.agent import RunOutput
 from agno.workflow import StepOutput
 from agno.workflow import StepInput
 from agno.models.base import Model
-from icle.assembler.prompts import ASSEMBLER_AGENT_PROMPT
-from icle.models.tasks import RuntimeTaskList
+from fasticle.assembler.prompts import ASSEMBLER_AGENT_PROMPT
+from fasticle.models.tasks import RuntimeTaskList
 from agno.agent import Agent
 import logging
 

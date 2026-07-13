@@ -3,9 +3,9 @@ from unittest.mock import MagicMock
 from agno.agent import Agent
 from agno.workflow import StepInput
 
-from icle.assembler.core import ASSEMBLER_INPUT_PROMPT, Assembler, AssemblerAgent
-from icle.assembler.prompts import ASSEMBLER_AGENT_PROMPT
-from icle.models.tasks import RuntimeTask, RuntimeTaskList
+from fasticle.assembler.core import ASSEMBLER_INPUT_PROMPT, Assembler, AssemblerAgent
+from fasticle.assembler.prompts import ASSEMBLER_AGENT_PROMPT
+from fasticle.models.tasks import RuntimeTask, RuntimeTaskList
 
 
 class TestAssemblerInstantiation:

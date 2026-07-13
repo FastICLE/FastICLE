@@ -1,8 +1,8 @@
 from agno.agent import Agent
 from agno.models.base import Model
 
-from icle.dispatcher.core import DispatcherAgent
-from icle.models.tasks import DispatcherTaskList
+from fasticle.dispatcher.core import DispatcherAgent
+from fasticle.models.tasks import DispatcherTaskList
 
 
 def test_instance_name(mock_model):

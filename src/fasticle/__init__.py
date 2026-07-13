@@ -5,22 +5,22 @@ from collections.abc import Iterator
 # during import can reach Python's last-resort stderr handler.
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 
-from icle.assembler.core import Assembler
-from icle.log_setup import enable_verbose_logging
-from icle.runtime.core import Runtime
-from icle.campus.core import Campus
+from fasticle.assembler.core import Assembler
+from fasticle.log_setup import enable_verbose_logging
+from fasticle.runtime.core import Runtime
+from fasticle.campus.core import Campus
 from agno.models.base import Model
 from agno.run.workflow import WorkflowRunOutput
-from icle.models.step_identifier import STEP_IDENTIFIER
-from icle.models.tasks import RuntimeTaskList
+from fasticle.models.step_identifier import STEP_IDENTIFIER
+from fasticle.models.tasks import RuntimeTaskList
 
 from agno.workflow import Step, StepOutput, Workflow
 
-from icle.caster.core import CasterAgent
-from icle.dispatcher.core import DispatcherAgent
+from fasticle.caster.core import CasterAgent
+from fasticle.dispatcher.core import DispatcherAgent
 
 
-class ICLE(Workflow):
+class FastICLE(Workflow):
 
     def __init__(
         self,
@@ -29,7 +29,7 @@ class ICLE(Workflow):
         expert_save_dir: str,
         multi_expert_mode=False,
         verbose: bool = False,
-        log_file: str | None = "icle.log",
+        log_file: str | None = "fasticle.log",
         **kwargs,
     ):
         super().__init__(**kwargs)
@@ -59,7 +59,7 @@ class ICLE(Workflow):
 
         self.assembler = Assembler(model=model)
 
-        self.name = "ICLE Pipeline"
+        self.name = "FastICLE Pipeline"
         self.steps = [
             Step(name=STEP_IDENTIFIER.DISPATCH, agent=self.dispatcher_agent),
             Step(name=STEP_IDENTIFIER.CAST, agent=self.caster_agent),
@@ -76,7 +76,7 @@ class ICLE(Workflow):
         if isinstance(output, WorkflowRunOutput):
             output.metadata = {
                 **(output.metadata or {}),
-                **ICLE._collect_used_experts(output),
+                **FastICLE._collect_used_experts(output),
             }
 
         return output
@@ -93,7 +93,7 @@ class ICLE(Workflow):
     def _collect_used_experts(output: WorkflowRunOutput) -> dict:
         experts_by_task: dict[str, list[str]] = {}
 
-        for step in ICLE._iter_step_outputs(output):
+        for step in FastICLE._iter_step_outputs(output):
             # Identify the runtime step by its content type rather than its
             # name, so this keeps working regardless of step ordering.
             if isinstance(step.content, RuntimeTaskList):

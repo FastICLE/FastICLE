@@ -1,8 +1,8 @@
 from agno.run.workflow import WorkflowRunOutput
 from agno.workflow import StepOutput
 
-from icle import ICLE
-from icle.models.tasks import RuntimeTask, RuntimeTaskList
+from fasticle import FastICLE
+from fasticle.models.tasks import RuntimeTask, RuntimeTaskList
 
 
 def _runtime_task(task_id: str, agent_ids: list[str]) -> RuntimeTask:
@@ -29,7 +29,7 @@ class TestCollectUsedExperts:
             ]
         )
 
-        result = ICLE._collect_used_experts(output)
+        result = FastICLE._collect_used_experts(output)
 
         assert result["experts_by_task"] == {
             "T1": ["nature_poem_writer"],
@@ -41,7 +41,7 @@ class TestCollectUsedExperts:
     def test_single_task(self):
         output = _output_with_runtime_step([_runtime_task("T1", ["general_poem_writer"])])
 
-        result = ICLE._collect_used_experts(output)
+        result = FastICLE._collect_used_experts(output)
 
         assert result["used_experts"] == ["general_poem_writer"]
         assert result["experts_by_task"] == {"T1": ["general_poem_writer"]}
@@ -49,7 +49,7 @@ class TestCollectUsedExperts:
     def test_no_runtime_step_yields_empty(self):
         output = WorkflowRunOutput(step_results=[StepOutput(content="just text")])
 
-        result = ICLE._collect_used_experts(output)
+        result = FastICLE._collect_used_experts(output)
 
         assert result["used_experts"] == []
         assert result["experts_by_task"] == {}
@@ -58,6 +58,6 @@ class TestCollectUsedExperts:
         runtime_step = StepOutput(content=RuntimeTaskList(task_list=[_runtime_task("T1", ["e1"])]))
         output = WorkflowRunOutput(step_results=[[runtime_step]])
 
-        result = ICLE._collect_used_experts(output)
+        result = FastICLE._collect_used_experts(output)
 
         assert result["used_experts"] == ["e1"]

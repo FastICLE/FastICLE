@@ -120,6 +120,34 @@ wheels = [
 ]
 
 [[package]]
+name = "fasticle"
+version = "1.0.3"
+source = { editable = "." }
+dependencies = [
+    { name = "agno" },
+    { name = "fastapi" },
+    { name = "fasticrl" },
+    { name = "python-dotenv" },
+]
+
+[package.optional-dependencies]
+test = [
+    { name = "openai" },
+    { name = "pytest" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "agno", specifier = ">=2.6.9" },
+    { name = "fastapi", specifier = ">=0.136.3" },
+    { name = "fasticrl", specifier = "==1.1.1" },
+    { name = "openai", marker = "extra == 'test'", specifier = ">=2.38.0" },
+    { name = "pytest", marker = "extra == 'test'", specifier = ">=9.0.3" },
+    { name = "python-dotenv", specifier = ">=1.2.2" },
+]
+provides-extras = ["test"]
+
+[[package]]
 name = "fasticrl"
 version = "1.1.1"
 source = { registry = "https://pypi.org/simple" }
@@ -205,34 +233,6 @@ sdist = { url = "https://files.pythonhosted.org/packages/02/e7/94f8232d4a74cc995
 wheels = [
     { url = "https://files.pythonhosted.org/packages/48/30/47d0bf6072f7252e6521f3447ccfa40b421b6824517f82854703d0f5a98b/hyperframe-6.1.0-py3-none-any.whl", hash = "sha256:b03380493a519fce58ea5af42e4a42317bf9bd425596f7a0835ffce80f1a42e5", size = 13007, upload-time = "2025-01-22T21:41:47.295Z" },
 ]
-
-[[package]]
-name = "icle"
-version = "1.0.3"
-source = { editable = "." }
-dependencies = [
-    { name = "agno" },
-    { name = "fastapi" },
-    { name = "fasticrl" },
-    { name = "python-dotenv" },
-]
-
-[package.optional-dependencies]
-test = [
-    { name = "openai" },
-    { name = "pytest" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "agno", specifier = ">=2.6.9" },
-    { name = "fastapi", specifier = ">=0.136.3" },
-    { name = "fasticrl", specifier = "==1.1.1" },
-    { name = "openai", marker = "extra == 'test'", specifier = ">=2.38.0" },
-    { name = "pytest", marker = "extra == 'test'", specifier = ">=9.0.3" },
-    { name = "python-dotenv", specifier = ">=1.2.2" },
-]
-provides-extras = ["test"]
 
 [[package]]
 name = "idna"

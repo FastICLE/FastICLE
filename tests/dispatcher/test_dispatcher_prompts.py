@@ -1,4 +1,4 @@
-from icle.dispatcher.prompts import DISPATCHER_SYSTEM_PROMPT
+from fasticle.dispatcher.prompts import DISPATCHER_SYSTEM_PROMPT
 
 
 class TestDispatcherSystemPrompt:

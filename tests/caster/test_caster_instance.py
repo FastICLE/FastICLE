@@ -4,9 +4,9 @@ from unittest.mock import MagicMock, patch
 import pytest
 from agno.agent import Agent
 
-from icle.campus.core import Campus
-from icle.caster.core import CasterAgent
-from icle.models.tasks import CasterTaskList, DispatcherTask, DispatcherTaskList
+from fasticle.campus.core import Campus
+from fasticle.caster.core import CasterAgent
+from fasticle.models.tasks import CasterTaskList, DispatcherTask, DispatcherTaskList
 
 DUMMY_EXPERTS_DIR = str(Path(__file__).parent.parent / "data" / "dummy_experts")
 
@@ -38,7 +38,7 @@ def test_training_pass_carries_train_new_expert_tool(mock_model, campus):
     trainer agent, where tool calls actually execute."""
     caster = CasterAgent(model=mock_model, global_task="Write poems.", campus=campus)
 
-    with patch("icle.caster.core.Agent") as MockAgent:
+    with patch("fasticle.caster.core.Agent") as MockAgent:
         prepared = caster._train_missing_experts("some task context")
 
     tool_names = [t.__name__ for t in MockAgent.call_args.kwargs["tools"]]
@@ -50,7 +50,7 @@ def test_train_tool_delegates_to_campus_and_collects_names(mock_model, campus):
     caster = CasterAgent(model=mock_model, global_task="Write poems.", campus=campus)
 
     with (
-        patch("icle.caster.core.Agent") as MockAgent,
+        patch("fasticle.caster.core.Agent") as MockAgent,
         patch.object(
             Campus, "train_new_expert", return_value="new_expert"
         ) as mock_train,

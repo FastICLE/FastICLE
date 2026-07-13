@@ -10,9 +10,9 @@ from agno.workflow import StepInput, StepOutput
 from dotenv import load_dotenv
 from pydantic import BaseModel
 
-from icle.campus.models.expert_config import ExpertConfig
-from icle.models.tasks import CasterTask, CasterTaskList, RuntimeTask, RuntimeTaskList
-from icle.runtime.prompts import (
+from fasticle.campus.models.expert_config import ExpertConfig
+from fasticle.models.tasks import CasterTask, CasterTaskList, RuntimeTask, RuntimeTaskList
+from fasticle.runtime.prompts import (
     DEPENDENCY_CONTEXT_PREAMBLE,
     ORIGINAL_REQUEST_PREAMBLE,
     TASK_EXECUTION_INSTRUCTIONS,

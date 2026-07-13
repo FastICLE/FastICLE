@@ -3,10 +3,10 @@ from unittest.mock import MagicMock, patch
 
 from agno.workflow import StepInput, StepOutput
 
-from icle.campus.models.expert_config import ExpertConfig
-from icle.models.tasks import CasterTask, CasterTaskList, RuntimeTask, RuntimeTaskList
-from icle.runtime.core import Runtime
-from icle.runtime.prompts import (
+from fasticle.campus.models.expert_config import ExpertConfig
+from fasticle.models.tasks import CasterTask, CasterTaskList, RuntimeTask, RuntimeTaskList
+from fasticle.runtime.core import Runtime
+from fasticle.runtime.prompts import (
     DEPENDENCY_CONTEXT_PREAMBLE,
     ORIGINAL_REQUEST_PREAMBLE,
     TASK_EXECUTION_INSTRUCTIONS,
@@ -41,7 +41,7 @@ class TestRuntimeRunTask:
             agent_ids=["nature_poem_writer"],
         )
 
-        with patch("icle.runtime.core.Team") as MockTeam:
+        with patch("fasticle.runtime.core.Team") as MockTeam:
             mock_run_output = MagicMock()
             mock_run_output.content = "A beautiful poem about nature."
             MockTeam.return_value.run.return_value = mock_run_output
@@ -63,7 +63,7 @@ class TestRuntimeRunTask:
             agent_ids=["nature_poem_writer"],
         )
 
-        with patch("icle.runtime.core.Team") as MockTeam:
+        with patch("fasticle.runtime.core.Team") as MockTeam:
             mock_run_output = MagicMock()
             mock_run_output.content = "output"
             MockTeam.return_value.run.return_value = mock_run_output
@@ -82,7 +82,7 @@ class TestRuntimeRunTask:
             agent_ids=["nature_poem_writer"],
         )
 
-        with patch("icle.runtime.core.Team") as MockTeam:
+        with patch("fasticle.runtime.core.Team") as MockTeam:
             mock_run_output = MagicMock()
             mock_run_output.content = "output"
             MockTeam.return_value.run.return_value = mock_run_output
@@ -109,7 +109,7 @@ class TestRuntimeStepExecution:
 
         mock_step_input = make_step_input(caster_task_list)
 
-        with patch("icle.runtime.core.Team") as MockTeam:
+        with patch("fasticle.runtime.core.Team") as MockTeam:
             mock_run_output = MagicMock()
             mock_run_output.content = "A poem."
             MockTeam.return_value.run.return_value = mock_run_output
@@ -130,7 +130,7 @@ class TestRuntimeStepExecution:
 
         mock_step_input = make_step_input(caster_task_list)
 
-        with patch("icle.runtime.core.Team") as MockTeam:
+        with patch("fasticle.runtime.core.Team") as MockTeam:
             mock_run_output = MagicMock()
             mock_run_output.content = "output"
             MockTeam.return_value.run.return_value = mock_run_output
@@ -223,7 +223,7 @@ class TestRuntimeDependencyContext:
         )
         mock_step_input = make_step_input(caster_task_list)
 
-        with patch("icle.runtime.core.Team") as MockTeam:
+        with patch("fasticle.runtime.core.Team") as MockTeam:
             mock_run_output = MagicMock()
             mock_run_output.content = "The finished menu design."
             MockTeam.return_value.run.return_value = mock_run_output
@@ -242,7 +242,7 @@ class TestRuntimeOriginalRequest:
     background, so details a lossy task description dropped are recoverable."""
 
     def _run_and_capture_prompt(self, runtime, step_input) -> str:
-        with patch("icle.runtime.core.Team") as MockTeam:
+        with patch("fasticle.runtime.core.Team") as MockTeam:
             mock_run_output = MagicMock()
             mock_run_output.content = "output"
             MockTeam.return_value.run.return_value = mock_run_output
@@ -297,7 +297,7 @@ class TestRuntimeExpertPrompt:
     Caster uses for assignment."""
 
     def _loaded_expert_system_message(self, runtime, caster_task) -> str:
-        with patch("icle.runtime.core.Team") as MockTeam:
+        with patch("fasticle.runtime.core.Team") as MockTeam:
             mock_run_output = MagicMock()
             mock_run_output.content = "output"
             MockTeam.return_value.run.return_value = mock_run_output
