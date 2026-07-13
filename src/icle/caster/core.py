@@ -9,7 +9,7 @@ from agno.models.base import Model
 from icle.campus.core import Campus
 from icle.caster.prompts import build_casting_prompt, build_training_prompt
 
-from icle.models.tasks import CasterTaskList
+from icle.models.tasks import CasterTaskList, DispatcherTaskList
 
 logger = logging.getLogger(__name__)
 
@@ -132,6 +132,17 @@ class CasterAgent(Agent):
         task_context = kwargs.get("input")
         if task_context is None and args:
             task_context = args[0]
+
+        # The workflow hands the task list over as a Pydantic model, which
+        # would reach the LLM as Python repr. Render it as the same XML
+        # format used everywhere else in the pipeline instead.
+        if isinstance(task_context, DispatcherTaskList):
+            task_context = task_context.to_xml()
+            if "input" in kwargs:
+                kwargs["input"] = task_context
+            elif args:
+                args = (task_context, *args[1:])
+
         logger.debug("Caster input:\n%s", task_context)
 
         # Phase 1: ensure every needed expert exists (tool calls execute).

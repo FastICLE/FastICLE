@@ -64,6 +64,10 @@ class RuntimeTask(CasterTask):
 class DispatcherTaskList(BaseModel):
     task_list: list[DispatcherTask]
 
+    def to_xml(self) -> str:
+        tasks_xml = "\n".join(task.to_xml() for task in self.task_list)
+        return f"<tasks>\n{tasks_xml}\n</tasks>"
+
 
 class CasterTaskList(BaseModel):
     task_list: list[CasterTask]

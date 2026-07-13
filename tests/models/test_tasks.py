@@ -140,6 +140,24 @@ class TestDispatcherTaskList:
         for tid, task in zip(ids, tl.task_list):
             assert task.task_id == tid
 
+    def test_to_xml_wraps_in_tasks_tag(self):
+        tasks = [DispatcherTask(task_id="T1", description="Task 1")]
+        xml = DispatcherTaskList(task_list=tasks).to_xml()
+        assert xml.startswith("<tasks>")
+        assert xml.endswith("</tasks>")
+
+    def test_to_xml_contains_all_tasks(self):
+        tasks = [
+            DispatcherTask(task_id=f"T{i}", description=f"Task {i}") for i in range(3)
+        ]
+        xml = DispatcherTaskList(task_list=tasks).to_xml()
+        for i in range(3):
+            assert f"<task_id>T{i}</task_id>" in xml
+
+    def test_to_xml_is_parseable(self):
+        tasks = [DispatcherTask(task_id="T1", description="Task & detail")]
+        ET.fromstring(DispatcherTaskList(task_list=tasks).to_xml())
+
 
 class TestCasterTaskList:
     def test_creation(self):

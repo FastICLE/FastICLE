@@ -6,7 +6,7 @@ from agno.agent import Agent
 
 from icle.campus.core import Campus
 from icle.caster.core import CasterAgent
-from icle.models.tasks import CasterTaskList
+from icle.models.tasks import CasterTaskList, DispatcherTask, DispatcherTaskList
 
 DUMMY_EXPERTS_DIR = str(Path(__file__).parent.parent / "data" / "dummy_experts")
 
@@ -162,6 +162,35 @@ def test_run_calls_update_system_message_before_delegating(mock_model, campus):
     assert "update" in call_order
     assert "agent_run" in call_order
     assert call_order.index("update") < call_order.index("agent_run")
+
+
+def test_run_renders_task_list_input_as_xml(mock_model, campus):
+    """The workflow hands over a Pydantic DispatcherTaskList; both LLM passes
+    must receive it as pipeline-standard XML, not as Python repr."""
+    caster = CasterAgent(model=mock_model, global_task="Write poems.", campus=campus)
+    task_list = DispatcherTaskList(
+        task_list=[DispatcherTask(task_id="T1", description="Write a poem.")]
+    )
+    seen = {}
+
+    with (
+        patch.object(
+            caster,
+            "_train_missing_experts",
+            side_effect=lambda ctx: seen.update(trainer_input=ctx) or [],
+        ),
+        patch.object(
+            Agent,
+            "run",
+            side_effect=lambda *a, **kw: seen.update(agent_input=a[0]) or MagicMock(),
+        ),
+    ):
+        caster.run(task_list)
+
+    for received in (seen["trainer_input"], seen["agent_input"]):
+        assert received.startswith("<tasks>")
+        assert "<task_id>T1</task_id>" in received
+        assert "DispatcherTask" not in received  # no Python repr leakage
 
 
 def test_update_system_message_lists_prepared_experts(mock_model, campus):
