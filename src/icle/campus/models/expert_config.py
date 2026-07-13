@@ -50,13 +50,18 @@ class ExpertConfig(AgentSaveState):
             sections.append(f"# Learned Strategy\n{self.strategy}")
 
         if self.buffer:
-            examples = "\n\n".join(
-                f"## Attempt {i} (reward={attempt.reward})\n"
-                f"Task: {attempt.task}\n"
-                f"Output: {attempt.output}"
-                for i, attempt in enumerate(self.buffer, start=1)
+            # Same XML rendering FastICRL uses during training, so the expert
+            # sees its experience buffer in the format its task_description
+            # framing was written for.
+            attempts_xml = "\n".join(
+                "<attempt>\n"
+                f"\tTask: {attempt.task}\n"
+                f"\tOutput: {attempt.output}\n"
+                f"\tReward: {attempt.reward}\n"
+                "</attempt>"
+                for attempt in self.buffer
             )
-            sections.append(f"# Past Attempts (Experience Buffer)\n{examples}")
+            sections.append(f"# Past Attempts (Experience Buffer)\n{attempts_xml}")
 
         return "\n\n".join(sections)
 
