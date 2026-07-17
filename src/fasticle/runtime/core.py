@@ -1,3 +1,4 @@
+from agno.team import TeamMode
 import copy
 import logging
 from concurrent.futures import ThreadPoolExecutor
@@ -150,6 +151,7 @@ class Runtime(BaseModel):
             members=experts,
             model=copy.deepcopy(self.model),
             instructions=TASK_EXECUTION_INSTRUCTIONS,
+            mode=TeamMode.broadcast
         )
         logger.debug(
             "Task [%s] team instructions:\n%s",
